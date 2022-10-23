@@ -8,6 +8,7 @@ import com.chandankumar.springbootblogapp.model.Post;
 import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.repository.PostRepository;
 import com.chandankumar.springbootblogapp.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -89,36 +90,48 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToDto(Post post){
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
 
-        Set<CommentDto> comments = post.getComments().stream()
-                                    .map(this::mapToCommentDto)
-                                    .collect(Collectors.toSet());
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(post, PostDto.class);
 
-        postDto.setComments(comments);
-        return postDto;
+//        PostDto postDto = new PostDto();
+//        postDto.setId(post.getId());
+//        postDto.setTitle(post.getTitle());
+//        postDto.setDescription(post.getDescription());
+//        postDto.setContent(post.getContent());
+//
+//        Set<CommentDto> comments = post.getComments().stream()
+//                                    .map(this::mapToCommentDto)
+//                                    .collect(Collectors.toSet());
+//
+//        postDto.setComments(comments);
+//        return postDto;
     }
 
     private Post mapToEntity(PostDto postDto){
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
 
-        return post;
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(postDto, Post.class);
+
+//        Post post = new Post();
+//        post.setTitle(postDto.getTitle());
+//        post.setDescription(postDto.getDescription());
+//        post.setContent(postDto.getContent());
+//
+//        return post;
     }
 
     private CommentDto mapToCommentDto(Comment comment){
-        CommentDto commentDto = new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setName(comment.getName());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setBody(comment.getBody());
 
-        return commentDto;
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(comment, CommentDto.class);
+
+//        CommentDto commentDto = new CommentDto();
+//        commentDto.setId(comment.getId());
+//        commentDto.setName(comment.getName());
+//        commentDto.setEmail(comment.getEmail());
+//        commentDto.setBody(comment.getBody());
+//
+//        return commentDto;
     }
 }

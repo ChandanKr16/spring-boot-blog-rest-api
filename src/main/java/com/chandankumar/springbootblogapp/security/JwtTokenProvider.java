@@ -18,8 +18,8 @@ public class JwtTokenProvider {
     @Value("${app.jwt-secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt-expiration-milliseconds}")
-    private String jwtExpirationDate;
+    @Value("${app-jwt-expiration-milliseconds}")
+    private long jwtExpirationDate;
 
     public String generateToken(Authentication authentication){
         String username = authentication.getName();
@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 
         String jwtToken  = Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(currentDate)
+                .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(key())
                 .compact();
@@ -38,7 +38,8 @@ public class JwtTokenProvider {
     }
 
     private Key key(){
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        return Keys.hmacShaKeyFor(
+                Decoders.BASE64.decode(jwtSecret));
     }
 
     public String getUsername(String token){

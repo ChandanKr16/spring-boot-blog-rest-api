@@ -7,6 +7,7 @@ import com.chandankumar.springbootblogapp.model.Role;
 import com.chandankumar.springbootblogapp.model.User;
 import com.chandankumar.springbootblogapp.repository.RoleRepository;
 import com.chandankumar.springbootblogapp.repository.UserRepository;
+import com.chandankumar.springbootblogapp.security.JwtTokenProvider;
 import com.chandankumar.springbootblogapp.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,23 +27,32 @@ public class AuthServiceImp implements AuthService {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
 
-    public AuthServiceImp(AuthenticationManager authenticationManager, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImp(AuthenticationManager authenticationManager, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     public String login(LoginDto loginDto) {
 
 
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+        Authentication authenticate = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        return "User logged-in successfully";
+        String token = jwtTokenProvider.generateToken(authenticate);
+
+        System.out.println(token);
+
+
+        return token;
     }
 
     @Override

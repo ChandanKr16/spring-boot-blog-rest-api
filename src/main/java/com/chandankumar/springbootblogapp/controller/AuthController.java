@@ -1,9 +1,10 @@
 package com.chandankumar.springbootblogapp.controller;
 
+import com.chandankumar.springbootblogapp.dto.JwtAuthResponse;
 import com.chandankumar.springbootblogapp.dto.LoginDto;
 import com.chandankumar.springbootblogapp.dto.RegisterDto;
 import com.chandankumar.springbootblogapp.service.AuthService;
-import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,15 +23,18 @@ public class AuthController {
     }
 
     @PostMapping(value = {"login", "signin"})
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-        String response = authService.login(loginDto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
+        String token = authService.login(loginDto);
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+        return ResponseEntity.ok(jwtAuthResponse);
     }
 
     @PostMapping(value = {"register", "signup"})
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 }

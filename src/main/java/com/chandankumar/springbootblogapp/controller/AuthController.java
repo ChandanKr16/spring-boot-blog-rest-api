@@ -1,6 +1,7 @@
 package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.LoginDto;
+import com.chandankumar.springbootblogapp.dto.RegisterDto;
 import com.chandankumar.springbootblogapp.service.AuthService;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,12 @@ public class AuthController {
     @PostMapping(value = {"login", "signin"})
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
         String response = authService.login(loginDto);
+        return ResponseEntity.ok(response);
+    }
 
+    @PostMapping(value = {"register", "signup"})
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
+        String response = authService.register(registerDto);
         return ResponseEntity.ok(response);
     }
 

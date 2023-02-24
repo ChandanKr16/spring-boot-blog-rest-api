@@ -113,6 +113,13 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PostDto> searchPostsByTitle(String title) {
+        return postRepository.findPostsByTitle(title)
+                .stream().map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     private PostDto mapToDto(Post post){
 
         ModelMapper modelMapper = new ModelMapper();

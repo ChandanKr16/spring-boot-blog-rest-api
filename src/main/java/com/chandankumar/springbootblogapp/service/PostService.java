@@ -20,6 +20,8 @@ public interface PostService {
 
     List<PostDto> getPostsByCategoryId(Long categoryId);
 
+    List<PostDto> searchPostsByTitle(String title);
+
 
 
 }

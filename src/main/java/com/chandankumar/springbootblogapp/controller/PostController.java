@@ -66,5 +66,10 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PostDto>> searchPostsByTitle(@RequestParam("title") String title){
+        return ResponseEntity.ok(postService.searchPostsByTitle(title));
+    }
+
 
 }

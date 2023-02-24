@@ -3,6 +3,7 @@ package com.chandankumar.springbootblogapp.service.impl;
 import com.chandankumar.springbootblogapp.dto.CommentDto;
 import com.chandankumar.springbootblogapp.dto.PostDto;
 import com.chandankumar.springbootblogapp.exception.ResourceNotFoundException;
+import com.chandankumar.springbootblogapp.model.Category;
 import com.chandankumar.springbootblogapp.model.Comment;
 import com.chandankumar.springbootblogapp.model.Post;
 import com.chandankumar.springbootblogapp.model.PostResponse;
@@ -80,7 +81,12 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
 
+        Category category = categoryRepository.findById(postDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", postDto.getCategoryId()));
+
+
         post.setTitle(postDto.getTitle());
+        post.setCategory(category);
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
 

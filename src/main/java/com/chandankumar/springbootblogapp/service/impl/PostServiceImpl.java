@@ -6,6 +6,7 @@ import com.chandankumar.springbootblogapp.exception.ResourceNotFoundException;
 import com.chandankumar.springbootblogapp.model.Comment;
 import com.chandankumar.springbootblogapp.model.Post;
 import com.chandankumar.springbootblogapp.model.PostResponse;
+import com.chandankumar.springbootblogapp.repository.CategoryRepository;
 import com.chandankumar.springbootblogapp.repository.PostRepository;
 import com.chandankumar.springbootblogapp.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -17,20 +18,26 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
-    public PostServiceImpl(PostRepository postRepository) {
+
+    public PostServiceImpl(PostRepository postRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public PostDto createPost(PostDto postDto) {
+
+        categoryRepository.findById(postDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", postDto.getCategoryId()));
+
         Post newPost = postRepository.save(mapToEntity(postDto));
         return mapToDto(newPost);
     }

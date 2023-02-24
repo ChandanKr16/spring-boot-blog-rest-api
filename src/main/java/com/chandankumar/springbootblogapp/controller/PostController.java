@@ -1,16 +1,18 @@
 package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.PostDto;
+import com.chandankumar.springbootblogapp.model.Post;
 import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.service.PostService;
 import com.chandankumar.springbootblogapp.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 
 @RestController
@@ -58,5 +60,11 @@ public class PostController {
         postService.deletePostById(id);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostDto>> findByCategoryId(@PathVariable("categoryId") Long categoryId){
+        return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
+    }
+
 
 }

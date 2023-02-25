@@ -1,9 +1,7 @@
 package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.CategoryDto;
-import com.chandankumar.springbootblogapp.model.Category;
 import com.chandankumar.springbootblogapp.service.CategoryService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

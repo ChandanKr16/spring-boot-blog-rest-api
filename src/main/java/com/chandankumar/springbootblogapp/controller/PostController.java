@@ -1,7 +1,6 @@
 package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.PostDto;
-import com.chandankumar.springbootblogapp.model.Post;
 import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.service.PostService;
 import com.chandankumar.springbootblogapp.utils.AppConstants;

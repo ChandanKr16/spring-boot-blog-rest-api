@@ -44,6 +44,7 @@ public class SecurityConfig {
                         //authorize.anyRequest().authenticated()
                     authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                             .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                             .anyRequest().authenticated()
                 ).exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

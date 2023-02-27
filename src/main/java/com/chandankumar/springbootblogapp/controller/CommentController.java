@@ -38,25 +38,25 @@ public class CommentController {
         return new ResponseEntity<>(commentService.getCommentsByPostId(postId, pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{commentId}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable("postId") long postId,
-                                                     @PathVariable("id") long id){
-        return ResponseEntity.ok(commentService.getCommentById(postId, id));
+                                                     @PathVariable("commentId") long commentId){
+        return ResponseEntity.ok(commentService.getCommentById(postId, commentId));
     }
 
 
 
-    @PutMapping("{id}")
+    @PutMapping("{commentId}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("postId") long postId,
-                                                    @PathVariable("id") long id,
+                                                    @PathVariable("commentId") long commentId,
                                                    @Valid @RequestBody CommentDto commentDto){
-        return ResponseEntity.ok(commentService.updateComment(postId, id, commentDto));
+        return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentDto));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
-                                                @PathVariable("id") long id) {
-        commentService.deleteComment(postId, id);
+                                                @PathVariable("commentId") long commentId) {
+        commentService.deleteComment(postId, commentId);
         return ResponseEntity.ok("Comment deleted");
     }
 

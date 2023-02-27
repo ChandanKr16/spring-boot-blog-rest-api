@@ -32,9 +32,9 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("{id}")
-    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("id") Long id){
-        return new ResponseEntity<>(postService.updatePost(postDto, id), HttpStatus.OK);
+    @PutMapping("{postId}")
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("postId") Long postId){
+        return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.OK);
     }
 
 
@@ -48,15 +48,15 @@ public class PostController {
         return new ResponseEntity<>(postService.getAllPosts(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
+    @GetMapping("{postId}")
+    public ResponseEntity<PostDto> getPostById(@PathVariable("postId") Long postId){
+        return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
-        postService.deletePostById(id);
+    @DeleteMapping("{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
+        postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 

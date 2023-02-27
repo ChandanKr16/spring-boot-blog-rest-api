@@ -28,21 +28,21 @@ public class PostController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Create a new post")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{postId}")
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Update an existing post")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("postId") Long postId){
         return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.OK);
     }
 
 
     @GetMapping
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Get all posts")
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.POST_DEFAULT_PAGE_NO, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.POST_DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -53,27 +53,27 @@ public class PostController {
     }
 
     @GetMapping("{postId}")
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Get post by post id")
     public ResponseEntity<PostDto> getPostById(@PathVariable("postId") Long postId){
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{postId}")
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Delete post by post id")
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping("category/{categoryId}")
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Get all posts by category id")
     public ResponseEntity<List<PostDto>> findByCategoryId(@PathVariable("categoryId") Long categoryId){
         return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
     }
 
     @GetMapping("search")
-    @Operation(tags = {"Post Controller"})
+    @Operation(tags = {"Post Controller"}, summary = "Search post by title")
     public ResponseEntity<List<PostDto>> searchPostsByTitle(@RequestParam("title") String title){
         return ResponseEntity.ok(postService.searchPostsByTitle(title));
     }

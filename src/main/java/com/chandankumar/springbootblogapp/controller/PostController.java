@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/posts/")
 public class PostController {
 
     private final PostService postService;
@@ -32,7 +32,7 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("id") Long id){
         return new ResponseEntity<>(postService.updatePost(postDto, id), HttpStatus.OK);
     }
@@ -48,24 +48,24 @@ public class PostController {
         return new ResponseEntity<>(postService.getAllPosts(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") Long id){
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
         postService.deletePostById(id);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("category/{categoryId}")
     public ResponseEntity<List<PostDto>> findByCategoryId(@PathVariable("categoryId") Long categoryId){
         return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     public ResponseEntity<List<PostDto>> searchPostsByTitle(@RequestParam("title") String title){
         return ResponseEntity.ok(postService.searchPostsByTitle(title));
     }

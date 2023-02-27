@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts/{postId}/comments")
+@RequestMapping("/api/posts/{postId}/comments/")
 public class CommentController {
 
     private final CommentService commentService;
@@ -38,7 +38,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.getCommentsByPostId(postId, pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable("postId") long postId,
                                                      @PathVariable("id") long id){
         return ResponseEntity.ok(commentService.getCommentById(postId, id));
@@ -46,14 +46,14 @@ public class CommentController {
 
 
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("postId") long postId,
                                                     @PathVariable("id") long id,
                                                    @Valid @RequestBody CommentDto commentDto){
         return ResponseEntity.ok(commentService.updateComment(postId, id, commentDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
                                                 @PathVariable("id") long id) {
         commentService.deleteComment(postId, id);

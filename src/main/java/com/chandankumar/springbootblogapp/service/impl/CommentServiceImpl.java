@@ -1,14 +1,21 @@
 package com.chandankumar.springbootblogapp.service.impl;
 
 import com.chandankumar.springbootblogapp.dto.CommentDto;
+import com.chandankumar.springbootblogapp.dto.PostDto;
 import com.chandankumar.springbootblogapp.exception.BlogApiException;
 import com.chandankumar.springbootblogapp.exception.ResourceNotFoundException;
 import com.chandankumar.springbootblogapp.model.Comment;
+import com.chandankumar.springbootblogapp.model.CommentResponse;
 import com.chandankumar.springbootblogapp.model.Post;
+import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.repository.CommentRepository;
 import com.chandankumar.springbootblogapp.repository.PostRepository;
 import com.chandankumar.springbootblogapp.service.CommentService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +47,28 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getCommentsByPostId(long postId) {
-        return commentRepository.findCommentsByPostId(postId).stream()
-                                .map(this::mapToDto)
-                                .collect(Collectors.toList());
+    public CommentResponse getCommentsByPostId(long postId, int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+       Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Comment> comments = commentRepository.findCommentsByPostId(postId, pageable);
+
+        List<Comment> commentList = comments.getContent();
+
+        List<CommentDto> content =  commentList.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+
+
+        return new CommentResponse(content,
+                comments.getNumber(),
+                comments.getSize(),
+                comments.getTotalElements(),
+                comments.getTotalPages(),
+                comments.isLast());
     }
 
     public CommentDto getCommentById(long postId, long commentId){

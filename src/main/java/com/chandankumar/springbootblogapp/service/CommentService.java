@@ -2,13 +2,14 @@ package com.chandankumar.springbootblogapp.service;
 
 import com.chandankumar.springbootblogapp.dto.CommentDto;
 import com.chandankumar.springbootblogapp.model.Comment;
+import com.chandankumar.springbootblogapp.model.CommentResponse;
 
 import java.util.List;
 
 public interface CommentService {
     CommentDto createComment(long postId, CommentDto commentDto);
 
-    List<CommentDto> getCommentsByPostId(long postId);
+    CommentResponse getCommentsByPostId(long postId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     CommentDto getCommentById(long postId, long commentId);
 

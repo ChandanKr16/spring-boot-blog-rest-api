@@ -1,7 +1,9 @@
 package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.CommentDto;
+import com.chandankumar.springbootblogapp.model.CommentResponse;
 import com.chandankumar.springbootblogapp.service.CommentService;
+import com.chandankumar.springbootblogapp.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,14 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentDto>> getCommentsByPostId(@PathVariable("postId") long postId){
-        return new ResponseEntity<>(commentService.getCommentsByPostId(postId), HttpStatus.OK);
+    public ResponseEntity<CommentResponse> getCommentsByPostId(@PathVariable("postId") long postId,
+                                                               @RequestParam(value = "pageNo", defaultValue = AppConstants.COMMENT_DEFAULT_PAGE_NO, required = false) int pageNo,
+                                                               @RequestParam(value = "pageSize", defaultValue = AppConstants.COMMENT_DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                               @RequestParam(value = "sortBy", defaultValue = AppConstants.COMMENT_DEFAULT_SORT_BY, required = false) String sortBy,
+                                                               @RequestParam(value = "sortDir", defaultValue = AppConstants.COMMENT_DEFAULT_SORT_DIR, required = false) String sortDir
+                                                               ){
+
+        return new ResponseEntity<>(commentService.getCommentsByPostId(postId, pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

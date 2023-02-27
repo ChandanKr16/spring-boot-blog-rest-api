@@ -2,6 +2,7 @@ package com.chandankumar.springbootblogapp.controller;
 
 import com.chandankumar.springbootblogapp.dto.CategoryDto;
 import com.chandankumar.springbootblogapp.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,12 +22,14 @@ public class CategoryController {
 
 
     @GetMapping
+    @Operation(tags = {"Category Controller"})
     public ResponseEntity<List<CategoryDto>> getAllCategories(){
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @Operation(tags = {"Category Controller"})
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
 
         CategoryDto savedCategory = categoryService.addCategory(categoryDto);
@@ -35,12 +38,14 @@ public class CategoryController {
     }
 
     @GetMapping("{categoryId}")
+    @Operation(tags = {"Category Controller"})
     public ResponseEntity<CategoryDto> getCategory(@PathVariable("categoryId") Long categoryId){
         return new ResponseEntity<>(categoryService.getCategory(categoryId), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{categoryId}")
+    @Operation(tags = {"Category Controller"})
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable("categoryId") Long categoryId,
                                                       @RequestBody CategoryDto categoryDto){
         return ResponseEntity.ok(categoryService.updateCategory(categoryId, categoryDto));
@@ -49,6 +54,7 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{categoryId}")
+    @Operation(tags = {"Category Controller"})
     public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") Long categoryId){
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>("Category deleted successfully", HttpStatus.OK);

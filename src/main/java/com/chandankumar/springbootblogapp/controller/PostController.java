@@ -4,6 +4,7 @@ import com.chandankumar.springbootblogapp.dto.PostDto;
 import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.service.PostService;
 import com.chandankumar.springbootblogapp.utils.AppConstants;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,18 +28,21 @@ public class PostController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{postId}")
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("postId") Long postId){
         return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.OK);
     }
 
 
     @GetMapping
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.POST_DEFAULT_PAGE_NO, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.POST_DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -49,23 +53,27 @@ public class PostController {
     }
 
     @GetMapping("{postId}")
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<PostDto> getPostById(@PathVariable("postId") Long postId){
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{postId}")
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping("category/{categoryId}")
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<List<PostDto>> findByCategoryId(@PathVariable("categoryId") Long categoryId){
         return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
     }
 
     @GetMapping("search")
+    @Operation(tags = {"Post Controller"})
     public ResponseEntity<List<PostDto>> searchPostsByTitle(@RequestParam("title") String title){
         return ResponseEntity.ok(postService.searchPostsByTitle(title));
     }

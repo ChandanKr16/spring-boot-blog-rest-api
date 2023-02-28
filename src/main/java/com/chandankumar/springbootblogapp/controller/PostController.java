@@ -5,6 +5,7 @@ import com.chandankumar.springbootblogapp.model.PostResponse;
 import com.chandankumar.springbootblogapp.service.PostService;
 import com.chandankumar.springbootblogapp.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,14 +29,20 @@ public class PostController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    @Operation(tags = {"Post Controller"}, summary = "Create a new post")
+    @Operation(tags = {"Post Controller"},
+            summary = "Create a new post",
+            security = {@SecurityRequirement(name = "BearerJWT")}
+    )
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{postId}")
-    @Operation(tags = {"Post Controller"}, summary = "Update an existing post")
+    @Operation(tags = {"Post Controller"},
+            summary = "Update an existing post",
+            security = {@SecurityRequirement(name = "BearerJWT")}
+    )
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable("postId") Long postId){
         return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.OK);
     }
@@ -60,7 +67,10 @@ public class PostController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{postId}")
-    @Operation(tags = {"Post Controller"}, summary = "Delete post by post id")
+    @Operation(tags = {"Post Controller"},
+            summary = "Delete post by post id",
+            security = {@SecurityRequirement(name = "BearerJWT")}
+    )
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         postService.deletePostById(postId);
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);

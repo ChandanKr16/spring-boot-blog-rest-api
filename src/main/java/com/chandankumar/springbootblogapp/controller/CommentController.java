@@ -23,14 +23,14 @@ public class CommentController {
     }
 
     @PostMapping
-    @Operation(tags = {"Comment Controller"})
+    @Operation(tags = {"Comment Controller"}, summary = "Create a comment")
     public ResponseEntity<CommentDto> createComment(@PathVariable("postId") long postId,
                                                    @Valid @RequestBody CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    @Operation(tags = {"Comment Controller"})
+    @Operation(tags = {"Comment Controller"}, summary = "Get all comments by post id")
     public ResponseEntity<CommentResponse> getCommentsByPostId(@PathVariable("postId") long postId,
                                                                @RequestParam(value = "pageNo", defaultValue = AppConstants.COMMENT_DEFAULT_PAGE_NO, required = false) int pageNo,
                                                                @RequestParam(value = "pageSize", defaultValue = AppConstants.COMMENT_DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -42,7 +42,7 @@ public class CommentController {
     }
 
     @GetMapping("{commentId}")
-    @Operation(tags = {"Comment Controller"})
+    @Operation(tags = {"Comment Controller"}, summary = "Get comment by id")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable("postId") long postId,
                                                      @PathVariable("commentId") long commentId){
         return ResponseEntity.ok(commentService.getCommentById(postId, commentId));
@@ -51,7 +51,7 @@ public class CommentController {
 
 
     @PutMapping("{commentId}")
-    @Operation(tags = {"Comment Controller"})
+    @Operation(tags = {"Comment Controller"}, summary = "Update an existing comment")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("postId") long postId,
                                                     @PathVariable("commentId") long commentId,
                                                    @Valid @RequestBody CommentDto commentDto){
@@ -59,7 +59,7 @@ public class CommentController {
     }
 
     @DeleteMapping("{commentId}")
-    @Operation(tags = {"Comment Controller"})
+    @Operation(tags = {"Comment Controller"}, summary = "Delete comment of a post by id")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
                                                 @PathVariable("commentId") long commentId) {
         commentService.deleteComment(postId, commentId);

@@ -24,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping(value = {"login", "signin"})
-    @Operation(tags = {"Auth Controller"})
+    @Operation(tags = {"Auth Controller"}, summary = "Sign in using username or email and password")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
         String token = authService.login(loginDto);
 
@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping(value = {"register", "signup"})
-    @Operation(tags = {"Auth Controller"})
+    @Operation(tags = {"Auth Controller"}, summary = "Sign up to create an account")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

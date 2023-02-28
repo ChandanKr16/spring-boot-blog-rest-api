@@ -18,9 +18,13 @@ public class Comment {
 
     private String name;
     private String email;
+
+    @Column(columnDefinition = "TEXT")
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "post_id_fk"))
     private Post post;
 }
